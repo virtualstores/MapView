@@ -24,7 +24,8 @@ public class MapLayer extends MapBaseLayer {
 
     private Bitmap bmp;
     private boolean hasMeasured;
-    private MapAABB mapBoundingBox;
+    //Deprecated
+    //private MapAABB mapBoundingBox;
     private Paint paint;
 
     public MapLayer(MapView mapView) {
@@ -65,14 +66,18 @@ public class MapLayer extends MapBaseLayer {
 
         paint = new Paint();
         paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+        paint.setDither(true);
 
         //Create AABB
-        mapBoundingBox = new MapAABB( new PointF(0, 0), this.bmp.getWidth(), this.bmp.getHeight());
+        //Deprecated
+        //mapBoundingBox = new MapAABB( new PointF(0, 0), this.bmp.getWidth(), this.bmp.getHeight());
 
         mapView.translate(width / 2, height / 2);
 
         //Update the bounding box once
-        mapBoundingBox.update(mapView.getCurrentTransform());
+        //Deprecated
+        //mapBoundingBox.update(mapView.getCurrentTransform());
     }
 
     /**
@@ -106,19 +111,23 @@ public class MapLayer extends MapBaseLayer {
     }
 
     @Override
-    public void draw(Canvas canvas, Matrix currentMatrix, float currentZoom, float
-            currentRotateDegrees) {
-        canvas.save();
+    public void draw(Canvas canvas, Matrix currentMatrix, float currentZoom, long deltaTime) {
         if (bmp != null) {
             canvas.drawBitmap(bmp, currentMatrix, paint);
-            mapBoundingBox.update(currentMatrix);
+            //Deprecated
+            //mapBoundingBox.update(currentMatrix);
         }
-        canvas.restore();
     }
 
-    public MapAABB getMapBoundingBox() {
-        return mapBoundingBox;
+    @Override
+    public void debugDraw(Canvas canvas, Matrix currentMatrix) {
+
     }
+
+//    Deprecated
+//    public MapAABB getMapBoundingBox() {
+//        return mapBoundingBox;
+//    }
 
     public Bitmap getImage() {
         return bmp;
